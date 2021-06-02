@@ -102,6 +102,9 @@ class DataAnalysis:
     def brands_by_category(self):
         return self.analyser.brands_by_category(self.sales_nov)
 
+    def top_items_by_category(self):
+        return self.analyser.top_items_by_category(self.sales_nov)
+
     # By brand
     def top_brands_by_sales(self, top=10):
         return self.analyser.generate_base_counts(self.sales_nov, metrics='product_id', grouped='brand', top=top)
@@ -111,6 +114,9 @@ class DataAnalysis:
 
     def funnel_by_brand(self):
         return self.analyser.funnel(self.data, grouped='brand', metric='user_session')
+
+    def top_items_by_brand(self):
+        return self.analyser.top_items_by_brand(self.sales_nov)
 
     # By date
     def daily_sales_by_category_and_brand(self):

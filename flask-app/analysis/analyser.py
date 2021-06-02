@@ -106,3 +106,19 @@ class Analyser:
         sales_by_brands = sales_by_brands[['brand','price','category_code']]
         sales_by_brands.columns=['brand','sales','category_code']
         return sales_by_brands
+
+    def top_items_by_category(self, sales_data):
+        cat_top_prods = sales_data.groupby(['category_code','product_id']).count()
+        cat_top_prods.reset_index(inplace=True)
+        cat_top_prods = cat_top_prods[['category_code','product_id','user_session']]
+        cat_top_prods.columns=['category_code','product_id','user_session']
+        cat_top_prods = cat_top_prods.groupby(['category_code']).apply(lambda x: x.nlargest(10,['user_session'])).reset_index(drop=True)
+        return cat_top_prods
+
+    def top_items_by_brand(self, sales_data):
+        brand_top_prods = sales_data.groupby(['brand','product_id']).count()
+        brand_top_prods.reset_index(inplace=True)
+        brand_top_prods = brand_top_prods [['brand','product_id','user_session']]
+        brand_top_prods.columns=['brand','product_id','user_session']
+        brand_top_prods = brand_top_prods.groupby(['brand']).apply(lambda x: x.nlargest(10,['user_session'])).reset_index(drop=True)
+        return brand_top_prods

@@ -89,6 +89,26 @@ def get_customer_behavior_by_category():
     ).properties(title="Select a Category to view Customer Behavior")
     return chart.to_json()
 
+@app.route('/top-items-by-category')
+def get_top_items_by_category():
+    top_items = data_analysis.top_items_by_category()
+    categories_tp = list(top_items.category_code.unique())
+    cat_dropdown_tp = alt.binding_select(options=categories_tp)
+    cat_select_tp = alt.selection_single(fields=['category_code'], bind=cat_dropdown_tp, name="Category")
+
+    chart = alt.Chart(top_items,title = 'Top Items For Selected Category').mark_bar(size=8).encode(
+        x=alt.X('user_session:Q',title = '# of sales'),
+        y = alt.Y('product_id:N', sort='-x')
+    ).properties(
+        width=600,
+        height=400
+    ).add_selection(
+        cat_select_tp
+    ).transform_filter(
+        cat_select_tp
+    ).properties(title="Select a Category to view Best Selling Items")
+    return chart.to_json()
+
 # By brand
 @app.route('/top-brands-by-sales-with-revenues')
 def get_top_brands_by_sales():
@@ -149,6 +169,31 @@ def get_brands_by_category():
     ).transform_filter(
         cat_select_sbd
     ).properties(title="Select a Category to view Top Brands")
+    return chart.to_json()
+
+@app.route('/top-items-by-brand')
+def get_top_items_by_brand():
+    top_items = data_analysis.top_items_by_brand()
+    brands_tp = list(top_items.brand.unique())
+    brand_dropdown_tp = alt.binding_select(options=brands_tp)
+    brand_select_tp = alt.selection_single(fields=['brand'], bind=brand_dropdown_tp, name="Brand")
+
+    chart = alt.Chart(top_items,title = 'Top Items For Selected Brand').mark_bar(size=8).encode(
+        x=alt.X('user_session:Q',title = '# of sales'),
+        y = alt.Y('product_id:N', sort='-x')
+    ).properties(
+        width=600,
+        height=400
+    ).transform_window(
+        rank='rank(user_session:Q)',
+        sort=[alt.SortField('user_session:Q', order='descending')]
+    ).transform_filter(
+        (alt.datum.rank < 10)
+    ).add_selection(
+        brand_select_tp
+    ).transform_filter(
+        brand_select_tp
+    ).properties(title="Select a Brand to view Best Selling Items")
     return chart.to_json()
 
 # By date

@@ -7,11 +7,15 @@ export default function Analysis() {
     // Vega object
     const [specTopCategoriesBySales, setSpecTopCategoriesBySales] = useState({});
     const [specCustomerBehaviorByCategory, setSpecCustomerBehaviorByCategory] = useState({});
+    const [specTopBrandsByCategory, setSpecTopBrandsByCategory] = useState({});
+    const [specTopItemsByCategory, setSpecTopItemsByCategory] = useState({});
+
     const [specTopBrandsBySales, setSpecTopBrandsBySales] = useState({});
     const [specCustomerBehaviorByBrand, setSpecCustomerBehaviorByBrand] = useState({});
+    const [specTopItemsByBrand, setSpecTopItemsByBrand] = useState({});
+
     const [specDailySalesByCategoryAndBrand, setSpecDailySalesByCategoryAndBrand] = useState({});
     const [specCustomerBehaviorByCategoryAndBrand, setSpecCustomerBehaviorByCategoryAndBrand] = useState({});
-    const [specTopBrandsByCategory, setSpecTopBrandsByCategory] = useState({});
     
     // Get vega object
     useEffect(()=>{
@@ -55,6 +59,18 @@ export default function Analysis() {
         setSpecTopBrandsByCategory(data);
       })
     }, []);
+
+    useEffect(() => {
+      fetch('/api/top-items-by-category').then(res => res.json()).then(data => {
+        setSpecTopItemsByCategory(data);
+      })
+    }, []);
+
+    useEffect(() => {
+      fetch('/api/top-items-by-brand').then(res => res.json()).then(data => {
+        setSpecTopItemsByBrand(data);
+      })
+    }, []);
   
     return (
       <>
@@ -67,9 +83,14 @@ export default function Analysis() {
         </div>
         <table width='100%'>
           <tbody>
-            <td align='center'><BarChart spec={specTopCategoriesBySales}></BarChart></td>
-            <td align='center'><BarChart spec={specCustomerBehaviorByCategory}></BarChart></td>
-            <td align='center'><BarChart spec={specTopBrandsByCategory}></BarChart></td>
+            <tr>
+              <td align='center'><BarChart spec={specTopCategoriesBySales}></BarChart></td>
+              <td align='center'><BarChart spec={specCustomerBehaviorByCategory}></BarChart></td>
+            </tr>
+            <tr>
+              <td align='center'><BarChart spec={specTopBrandsByCategory}></BarChart></td>
+              <td align='center'><BarChart spec={specTopItemsByCategory}></BarChart></td>
+            </tr>
           </tbody>
         </table>
         
@@ -78,8 +99,13 @@ export default function Analysis() {
         </div>
         <table width='100%'>
           <tbody>
-            <td align='center'><BarChart spec={specTopBrandsBySales}></BarChart></td>
-            <td align='center'><BarChart spec={specCustomerBehaviorByBrand}></BarChart></td>
+            <tr>
+              <td align='center'><BarChart spec={specTopBrandsBySales}></BarChart></td>
+              <td align='center'><BarChart spec={specCustomerBehaviorByBrand}></BarChart></td>
+            </tr>
+            <tr>
+              <td align='center'><BarChart spec={specTopItemsByBrand}></BarChart></td>
+            </tr>
           </tbody>
         </table>
 
