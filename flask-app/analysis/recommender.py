@@ -39,6 +39,64 @@ class Recommender:
         
         return similarities[:top]
 
+
+    def find_nearest_user(self, userid, item_to_user, user_to_item, top=10):
+        maxSimilarityScore = float('-inf')
+        candidateUsers = set()
+        items = user_to_item[userid]
+        similarities = []
+
+        #reduce the search space of the candidate items
+        for i in items:
+            candidateUsers = candidateUsers.union(item_to_user[i])
+
+        for user in candidateUsers:
+            if user==userid:
+                continue
+            
+            # score = CalcScore_cosine(item,itemid)
+            score = self.jaccard(items, user_to_item[user])
+            if score==float('nan'):
+                continue
+
+            similarities.append((score, user))
+        similarities.sort(reverse=True)
+        
+        return similarities[:top]
+
+    
+    def find_nearest_users_from_item(self, target_item, item_to_user, user_to_item, user_history):
+        target_users = set()
+        purchased_users = item_to_user[target_item]
+
+        for user in purchased_users:
+            users = self.find_nearest_user(user, item_to_user, user_to_item)
+            if len(users) == 0:
+                continue
+            set_users = set(list(zip(*users))[1])
+            new_users = set_users.difference(purchased_users)
+            target_users = target_users.union(new_users)
+
+        target_users = list(target_users)
+        views = []
+        purchases = []
+        carts = []
+        amount = []
+        for userid in target_users:
+            views.append(user_history.loc[userid, 'view'])
+            purchases.append(user_history.loc[userid, 'purchase'])
+            carts.append(user_history.loc[userid, 'cart'])
+            amount.append(user_history.loc[userid, 'price'])
+        
+        target_df = pd.DataFrame(data={ 'Target users': target_users,
+                                        '#Views': views,
+                                        '#Purchases': purchases,
+                                        '#AddedToCart': carts,
+                                        'Amount Spent (USD)': amount})
+
+        return target_df
+
+
     '''Helper'''
     def one_hot_encode(self, item, unique_user, item_to_user, user_to_idx):
         vector = [0 for _ in range(len(unique_user))]

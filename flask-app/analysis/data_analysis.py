@@ -26,6 +26,7 @@ class DataAnalysis:
         self.unique_user, self.unique_item = set(), set()
         self.user_to_item, self.item_to_user = defaultdict(set), defaultdict(set)
         self.item_history = defaultdict(dict)
+        self.user_history = pd.DataFrame({})
         self.user_to_idx, self.itemid_to_category_code, self.itemid_to_brand = dict(), dict(), dict()
         self.recommender = Recommender()
         self.data_preprocess_for_recommendation()
@@ -60,6 +61,18 @@ class DataAnalysis:
             self.itemid_to_category_code[itemid] = categorycode
             self.itemid_to_brand[itemid] = brand
             self.item_history[itemid][event_type] += 1
+
+            # User history
+            userhistory_price = self.data[['price', 'user_id']]
+            userhistory_event = self.data[['event_type', 'user_id']]
+
+            one_hot_event = pd.get_dummies(userhistory_event['event_type'])
+            userhistory_event = userhistory_event.drop('event_type',axis = 1)
+            userhistory_event = userhistory_event.join(one_hot_event)
+
+            price_df = userhistory_price.groupby(by='user_id').sum()
+            event_df = userhistory_event.groupby(by='user_id').sum()
+            self.user_history = price_df.join(event_df)
 
     '''Basic data processing'''
     def get_item(self, item_id=None):
@@ -121,3 +134,11 @@ class DataAnalysis:
         } for _, item_id in nearest_items]).transpose()
 
         return items_df
+
+    def find_nearest_users_from_item(self, item=None):
+        if not item:
+            return pd.DataFrame({})
+        
+        nearest_users = self.recommender.find_nearest_users_from_item(item, self.item_to_user, self.user_to_item, self.user_history)
+        return nearest_users.transpose()
+        

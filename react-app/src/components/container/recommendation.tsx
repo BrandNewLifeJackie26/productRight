@@ -11,7 +11,11 @@ export default function Recommendation() {
       {
         value: '1003461',
         label: '1003461',
-      }
+      },
+      {
+        value: '2700588',
+        label: '2700588',
+      },
     ];
 
     function itemIdOnChange(value) {
@@ -19,8 +23,10 @@ export default function Recommendation() {
     };
 
     // Recommendation data from back end (table-like json)
-    const [dataSource, setDataSource] = useState([]);
-    const [columns, setColumns] = useState([]);
+    const [nearestItemsDataSource, setNearestItemsDataSource] = useState([]);
+    const [nearestUsersDataSource, setNearestUsersDataSource] = useState([]);
+    const [nearestItemsColumns, setNearestItemsColumns] = useState([]);
+    const [nearestUsersColumns, setNearestUsersColumns] = useState([]);
     
     // Get table-like json from back-end
     useEffect(()=>{
@@ -43,7 +49,7 @@ export default function Recommendation() {
           };
           ds.push(newObject);
         }
-        setDataSource(ds);
+        setNearestItemsDataSource(ds);
 
         // Extract column names for antd Table columns
         // TODO: if there is no entry in data
@@ -56,7 +62,33 @@ export default function Recommendation() {
           };
           cols.push(newObject);
         }
-        setColumns(cols);
+        setNearestItemsColumns(cols);
+      });
+
+      fetch(`/api/nearest-users-from-item/${itemId}`).then(res => res.json()).then(data => {
+        // Convert table-like json data to antd Table data
+        let ds = [];
+        for (const key in data) {
+          let newObject = {
+            ...data[key],
+            key: key,
+          };
+          ds.push(newObject);
+        }
+        setNearestUsersDataSource(ds);
+
+        // Extract column names for antd Table columns
+        // TODO: if there is no entry in data
+        let cols = [];
+        for (const attribute in data[0]) {
+          let newObject = {
+            key: attribute,
+            dataIndex: attribute,
+            title: attribute,
+          };
+          cols.push(newObject);
+        }
+        setNearestUsersColumns(cols);
       });
     }, [itemId]);
 
@@ -66,7 +98,7 @@ export default function Recommendation() {
             <table width='100%'>
               <tbody>
                 <tr>
-                  <td width='20%'>
+                  <td rowSpan={2} width='20%'>
                     <Cascader 
                       options={options}
                       onChange={itemIdOnChange}
@@ -76,13 +108,33 @@ export default function Recommendation() {
 
                   <td width='80%'>
                     <Table 
-                      dataSource={dataSource}
-                      columns={columns}
+                      dataSource={nearestItemsDataSource}
+                      columns={nearestItemsColumns}
                       title={() => {
                         return (
                           <table>
                             <tbody>
                               <td>Nearest items for item_id:<Button type='primary'>{itemId}</Button></td>
+                              <td>category:<Button type='dashed'>{item['category_code']}</Button></td>
+                              <td>brand:<Button type='dashed'>{item['brand']}</Button></td>
+                            </tbody>
+                          </table>
+                        )}}
+                      scroll={{ y: 240 }}
+                    />
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td width='80%'>
+                    <Table 
+                      dataSource={nearestUsersDataSource}
+                      columns={nearestUsersColumns}
+                      title={() => {
+                        return (
+                          <table>
+                            <tbody>
+                              <td>Nearest users for item_id:<Button type='primary'>{itemId}</Button></td>
                               <td>category:<Button type='dashed'>{item['category_code']}</Button></td>
                               <td>brand:<Button type='dashed'>{item['brand']}</Button></td>
                             </tbody>

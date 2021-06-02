@@ -224,3 +224,8 @@ def get_customer_behavior_by_category_and_brand():
 def get_nearest_items(item_id):
     df = data_analysis.find_nearest_item(int(item_id))
     return df.to_json()
+
+@app.route('/nearest-users-from-item/<item_id>')
+def get_nearest_users_from_item(item_id):
+    df = data_analysis.find_nearest_users_from_item(int(item_id))
+    return df.to_json()
