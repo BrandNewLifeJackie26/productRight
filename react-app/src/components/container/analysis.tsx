@@ -6,9 +6,12 @@ import BarChart from '../charts/barchart'
 export default function Analysis() {
     // Vega object
     const [specTopCategoriesBySales, setSpecTopCategoriesBySales] = useState({});
-    const [specTopCategoriesByConversions, setSpecTopCategoriesByConversions] = useState({});
+    const [specCustomerBehaviorByCategory, setSpecCustomerBehaviorByCategory] = useState({});
     const [specTopBrandsBySales, setSpecTopBrandsBySales] = useState({});
-    const [specTopBrandsByConversions, setSpecTopBrandsByConversions] = useState({});
+    const [specCustomerBehaviorByBrand, setSpecCustomerBehaviorByBrand] = useState({});
+    const [specDailySalesByCategoryAndBrand, setSpecDailySalesByCategoryAndBrand] = useState({});
+    const [specCustomerBehaviorByCategoryAndBrand, setSpecCustomerBehaviorByCategoryAndBrand] = useState({});
+    const [specTopBrandsByCategory, setSpecTopBrandsByCategory] = useState({});
     
     // Get vega object
     useEffect(()=>{
@@ -18,8 +21,8 @@ export default function Analysis() {
     }, []);
 
     useEffect(() => {
-      fetch('/api/conversions').then(res => res.json()).then(data => {
-        setSpecTopCategoriesByConversions(data);
+      fetch('/api/customer-behavior-by-category').then(res => res.json()).then(data => {
+        setSpecCustomerBehaviorByCategory(data);
       });
     }, []);
 
@@ -30,9 +33,27 @@ export default function Analysis() {
     }, []);
 
     useEffect(() => {
-      fetch('/api/top-brands-by-conversions').then(res => res.json()).then(data => {
-        setSpecTopBrandsByConversions(data);
+      fetch('/api/customer-behavior-by-brand').then(res => res.json()).then(data => {
+        setSpecCustomerBehaviorByBrand(data);
       });
+    }, []);
+
+    useEffect(() => {
+      fetch('/api/daily-sales-by-category-and-brand').then(res => res.json()).then(data => {
+        setSpecDailySalesByCategoryAndBrand(data);
+      });
+    }, []);
+
+    useEffect(() => {
+      fetch('/api/customer-behavior-by-category-and-brand').then(res => res.json()).then(data => {
+        setSpecCustomerBehaviorByCategoryAndBrand(data);
+      });
+    }, []);
+
+    useEffect(() => {
+      fetch('/api/brands-by-category').then(res => res.json()).then(data => {
+        setSpecTopBrandsByCategory(data);
+      })
     }, []);
   
     return (
@@ -44,14 +65,41 @@ export default function Analysis() {
         <div>
         <h2 className={styles.subtitle}>Category Level</h2>
         </div>
-        <BarChart spec={specTopCategoriesBySales}></BarChart>
-        <BarChart spec={specTopCategoriesByConversions}></BarChart>
+        <table width='100%'>
+          <tbody>
+            <td align='center'><BarChart spec={specTopCategoriesBySales}></BarChart></td>
+            <td align='center'><BarChart spec={specCustomerBehaviorByCategory}></BarChart></td>
+            <td align='center'><BarChart spec={specTopBrandsByCategory}></BarChart></td>
+          </tbody>
+        </table>
         
         <div>
         <h2 className={styles.subtitle}>Brand Level</h2>
         </div>
-        <BarChart spec={specTopBrandsBySales}></BarChart>
-        <BarChart spec={specTopBrandsByConversions}></BarChart>
+        <table width='100%'>
+          <tbody>
+            <td align='center'><BarChart spec={specTopBrandsBySales}></BarChart></td>
+            <td align='center'><BarChart spec={specCustomerBehaviorByBrand}></BarChart></td>
+          </tbody>
+        </table>
+
+        <div>
+        <h2 className={styles.subtitle}>Daily Level</h2>
+        </div>
+        <table width='100%'>
+          <tbody>
+            <td align='center'><BarChart spec={specDailySalesByCategoryAndBrand}></BarChart></td>
+          </tbody>
+        </table>
+
+        <div>
+        <h2 className={styles.subtitle}>Others</h2>
+        </div>
+        <table width='100%'>
+          <tbody>
+            <td align='center'><BarChart spec={specCustomerBehaviorByCategoryAndBrand}></BarChart></td>
+          </tbody>
+        </table>
       </>
     );
   }

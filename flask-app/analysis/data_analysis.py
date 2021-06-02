@@ -32,6 +32,7 @@ class DataAnalysis:
 
     def data_preprocess_for_analysis(self):
         if not (self.sales_nov and self.carts_nov and self.views_nov):
+            self.data.event_time = pd.to_datetime(self.data["event_time"]).dt.date
             self.sales_nov = self.data.loc[self.data.event_type == 'purchase']
             self.carts_nov = self.data.loc[self.data.event_type == 'cart']
             self.views_nov = self.data.loc[self.data.event_type == 'view']
@@ -69,7 +70,6 @@ class DataAnalysis:
     '''Supported analyses'''
     # TODO: exceptions
     # By category
-
     def top_categories_by_sales(self, top=10):
         return self.analyser.generate_base_counts(
             self.sales_nov, metrics='product_id', grouped='category_code', top=top)
@@ -86,16 +86,26 @@ class DataAnalysis:
     def funnel_by_category(self):
         return self.analyser.funnel(self.data, grouped='category_code', metric='user_session')
 
+    def brands_by_category(self):
+        return self.analyser.brands_by_category(self.sales_nov)
+
     # By brand
     def top_brands_by_sales(self, top=10):
         return self.analyser.generate_base_counts(self.sales_nov, metrics='product_id', grouped='brand', top=top)
 
     def top_brands_by_revenues(self, top=10):
-        return self.analyser.generate_base_sum(self.sales_nov, metrics='price', grouped='brand', top=10)
+        return self.analyser.generate_base_sum(self.sales_nov, metrics='price', grouped='brand', top=top)
 
     def funnel_by_brand(self):
         return self.analyser.funnel(self.data, grouped='brand', metric='user_session')
 
+    # By date
+    def daily_sales_by_category_and_brand(self):
+        return self.analyser.daily_sales_by_category_and_brand(self.sales_nov)
+
+    # Others
+    def funnel_by_category_and_brand(self):
+        return self.analyser.funnel_by_category_and_brand(self.data)
 
     '''Supported recommendations'''
     def find_nearest_item(self, item=None):

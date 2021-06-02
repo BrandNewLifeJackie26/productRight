@@ -85,3 +85,24 @@ class Analyser:
                                        var_name=grouped,
                                        value_name="funnel_value")
         return nov_grouped
+
+    def daily_sales_by_category_and_brand(self, sales_data):
+        sales_by_date = sales_data.groupby(['event_time','brand','category_code']).sum()
+        sales_by_date.reset_index(inplace=True)
+        sales_by_date = sales_by_date[['event_time','brand','price','category_code']]
+        sales_by_date.columns=['event_time','brand','sales','category_code']
+        sales_by_date['event_time'] = sales_by_date['event_time'].apply(lambda x:x.toordinal())
+        sales_by_date['event_time'] = sales_by_date['event_time'] - sales_by_date['event_time'].iloc[0]
+        return sales_by_date
+
+    def funnel_by_category_and_brand(self, data):
+        funnel_grouped = data.groupby(['category_code','brand', 'event_type']).agg({'user_session':'count', 'price':'sum'})
+        funnel_grouped= funnel_grouped.reset_index()
+        return funnel_grouped
+
+    def brands_by_category(self, sales_data):
+        sales_by_brands = sales_data.groupby(['brand','category_code']).sum()
+        sales_by_brands.reset_index(inplace=True)
+        sales_by_brands = sales_by_brands[['brand','price','category_code']]
+        sales_by_brands.columns=['brand','sales','category_code']
+        return sales_by_brands
