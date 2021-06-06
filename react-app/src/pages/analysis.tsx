@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './analysis.css';
 import { useState } from 'react';
-import BarChart from '../charts/barchart'
+import BarChart from '../components/charts/barchart'
 
 export default function Analysis() {
     // Vega object

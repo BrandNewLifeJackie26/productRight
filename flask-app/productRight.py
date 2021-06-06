@@ -39,7 +39,7 @@ def get_item(item_id):
 @app.route('/top-categories-by-sales-with-revenue')
 def get_top_categories_by_sales_with_revenue():
     top_cat_sales = data_analysis.top_categories_by_sales()
-    chart_sales = alt.Chart(top_cat_sales, title='Top 10 categories by # of Sales').mark_bar().encode(
+    chart_sales = alt.Chart(top_cat_sales, title='Top categories by # of Sales').mark_bar().encode(
         x=alt.X('product_id:Q', title='# of sales'),
         y=alt.Y('category_code:N', sort='-x'),
     )
@@ -76,7 +76,7 @@ def get_customer_behavior_by_category():
     cat_select = alt.selection_single(
         fields=['category_code'], bind=cat_dropdown, name="Category")
 
-    chart = alt.Chart(top_10_cat_funnel, title='Novemeber:Conversion for top 10 category_codes').mark_bar().encode(
+    chart = alt.Chart(top_10_cat_funnel, title='Novemeber:Conversion for top category_codes').mark_bar().encode(
         x=alt.X('event_type:N', sort=('view', 'cart', 'purchase')),
         y=alt.Y('funnel_value:Q'),
     ).properties(
@@ -112,7 +112,7 @@ def get_top_items_by_category():
 # By brand
 @app.route('/top-brands-by-sales-with-revenues')
 def get_top_brands_by_sales():
-    chart1 = alt.Chart(data_analysis.top_brands_by_sales(), title='Top 10 brands by # of Sales').mark_bar().encode(
+    chart1 = alt.Chart(data_analysis.top_brands_by_sales(), title='Top brands by # of Sales').mark_bar().encode(
         x=alt.X('product_id:Q', title='# of sales'),
         y=alt.Y('brand:N', sort='-x'),
     )
@@ -135,7 +135,7 @@ def get_customer_behavior_by_brand():
     brand_select = alt.selection_single(
         fields=['brand'], bind=brand_dropdown, name="Brand")
 
-    chart = alt.Chart(nov_funnel_by_brand, title='Novemeber:Conversion for top 10 brands').mark_bar().encode(
+    chart = alt.Chart(nov_funnel_by_brand, title='Novemeber:Conversion for top brands').mark_bar().encode(
         x=alt.X('event_type:N', sort=('view', 'cart', 'purchase')),
         y=alt.Y('funnel_value:Q'),
 
@@ -214,7 +214,7 @@ def get_daily_sales_by_category_and_brand():
         fields=['category_code'], bind=cat_dropdown_sbd, name="Category")
 
     chart = alt.Chart(sales_by_date, title='Sales by Date').mark_bar().encode(
-        x=alt.X('event_time', scale=alt.Scale(domain=(1, 30))),
+        x=alt.X('event_time', scale=alt.Scale(domain=(1, 8))),
         y='sales:Q',
     ).properties(
         width=300,

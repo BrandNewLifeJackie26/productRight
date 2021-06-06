@@ -17,7 +17,7 @@ class DataManager:
     def fetch(self):
         if not self.data:
             try:
-                self.data = pd.read_csv(self.data_path, nrows=1000)
+                self.data = pd.read_csv(self.data_path, nrows=1000000)
             except:  # TODO: more specific error handling
                 print('Unexpected error:', sys.exc_info()[0])
         return self.data

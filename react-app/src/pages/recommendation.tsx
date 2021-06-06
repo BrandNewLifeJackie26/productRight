@@ -1,6 +1,6 @@
 import styles from './recommendation.css';
 import { useState, useEffect } from 'react';
-import { Cascader, Table, Button } from 'antd';
+import { InputNumber, Cascader, Table, Button } from 'antd';
 
 export default function Recommendation() {
     // Item selecter
@@ -9,17 +9,29 @@ export default function Recommendation() {
     const [item, setItem] = useState({}); // Item information of current selected item
     const options = [
       {
-        value: '1003461',
-        label: '1003461',
+        value: '1801906',
+        label: '1801906',
       },
       {
-        value: '2700588',
-        label: '2700588',
+        value: '1005104',
+        label: '1005104',
+      },
+      {
+        value: '1004653',
+        label: '1004653',
+      },
+      {
+        value: '1005203',
+        label: '1005203',
+      },
+      {
+        value: '4100131',
+        label: '4100131',
       },
     ];
 
     function itemIdOnChange(value) {
-      setItemId(value[0]);
+      setItemId(value);
     };
 
     // Recommendation data from back end (table-like json)
@@ -99,11 +111,15 @@ export default function Recommendation() {
               <tbody>
                 <tr>
                   <td rowSpan={2} width='20%'>
-                    <Cascader 
-                      options={options}
+                    <InputNumber
                       onChange={itemIdOnChange}
                       placeholder="Please select the item id you want to analyze"
                     />
+                    {/* <Cascader 
+                      options={options}
+                      onChange={itemIdOnChange}
+                      placeholder="Please select the item id you want to analyze"
+                    /> */}
                   </td>
 
                   <td width='80%'>
