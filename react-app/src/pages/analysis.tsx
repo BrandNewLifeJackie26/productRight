@@ -1,8 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Carousel } from 'antd';
+import {
+  LeftCircleFilled,
+  RightCircleFilled
+} from '@ant-design/icons';
 
 import styles from './analysis.css';
 import BarChart from '../components/charts/barchart'
+
+/* Arrows used in carousel */
+function PrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <LeftCircleFilled
+      className={styles.carouselPrevArrow}
+      onClick={onClick}
+    />
+  );
+}
+
+function NextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <RightCircleFilled
+      className={styles.carouselNextArrow}
+      onClick={onClick}
+    />
+  );
+}
+
+/* Generate charts */
+function Charts(props) {
+  // console.log(props.levelMap[props.level]);
+  const charts = props.levelMap[props.level].map((spec) => (
+    <div className={styles.carouselItem}>
+      <BarChart spec={spec}></BarChart>
+    </div>
+  ));
+  return (
+    <Carousel
+      className={styles.carousel}
+      arrows={true}
+      prevArrow={<PrevArrow />}
+      nextArrow={<NextArrow />}
+      >              
+      {charts}
+    </Carousel>
+  );
+}
 
 export default function Analysis() {
     // Vega object
@@ -18,6 +63,27 @@ export default function Analysis() {
     const [specDailySalesByCategoryAndBrand, setSpecDailySalesByCategoryAndBrand] = useState({});
     const [specCustomerBehaviorByCategoryAndBrand, setSpecCustomerBehaviorByCategoryAndBrand] = useState({});
     
+    // Map of levels
+    const levelMap = {
+      "Category": [
+        specTopCategoriesBySales, 
+        specCustomerBehaviorByCategory, 
+        specTopBrandsByCategory, 
+        specTopItemsByCategory
+      ],
+      "Brand": [
+        specTopBrandsBySales,
+        specCustomerBehaviorByBrand,
+        specTopItemsByBrand
+      ],
+      "Daily": [
+        specDailySalesByCategoryAndBrand
+      ],
+      "Others": [
+        specCustomerBehaviorByCategoryAndBrand
+      ],
+    }
+
     // Get vega object
     useEffect(()=>{
       fetch('/api/top-categories-by-sales-with-revenue').then(res => res.json()).then(data => {
@@ -72,7 +138,10 @@ export default function Analysis() {
         setSpecTopItemsByBrand(data);
       })
     }, []);
-  
+
+    // Selected analysis level
+    const [analysisLevel, setAnalysisLevel] = useState("Category");
+
     return (
       // <>
       //   <div>
@@ -133,10 +202,10 @@ export default function Analysis() {
         <div className={styles.levelSelection}>
           <div className={styles.selectionIntro}>Click Level to Analyse</div>
           <div className={styles.selections}>
-            <Button type="primary" shape="round" className={styles.selectionButton}>Category</Button>
-            <Button type="primary" shape="round" className={styles.selectionButton}>Brand</Button>
-            <Button type="primary" shape="round" className={styles.selectionButton}>Daily</Button>
-            <Button type="primary" shape="round" className={styles.selectionButton}>Others</Button>
+            <Button type="primary" shape="round" className={styles.selectionButton} onClick={() => setAnalysisLevel("Category")} autoFocus={true}>Category</Button>
+            <Button type="primary" shape="round" className={styles.selectionButton} onClick={() => setAnalysisLevel("Brand")}>Brand</Button>
+            <Button type="primary" shape="round" className={styles.selectionButton} onClick={() => setAnalysisLevel("Daily")}>Daily</Button>
+            <Button type="primary" shape="round" className={styles.selectionButton} onClick={() => setAnalysisLevel("Others")}>Others</Button>
           </div>
         </div>
 
@@ -146,12 +215,7 @@ export default function Analysis() {
             <div className={styles.analysisIntroBody}>Category Body</div>
           </div>
           <div className={styles.analysisChart}>
-            <Carousel className={styles.carousel}>
-              <div className={styles.carouselItem}>1</div>
-              <div className={styles.carouselItem}>2</div>
-              <div className={styles.carouselItem}>3</div>
-              <div className={styles.carouselItem}>4</div>
-            </Carousel>
+            <Charts level={analysisLevel} levelMap={levelMap}/>            
           </div>
         </div>
       </>

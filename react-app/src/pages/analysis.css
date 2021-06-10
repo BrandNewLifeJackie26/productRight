@@ -105,16 +105,35 @@
   margin-left: 40px;
   justify-content: center;
   width: 60%;
+}
 
-  border: blue solid;
+/* TODO: why the percentage not working */
+.carousel {
+  background: #364d79;
+  height: 65vh;
 }
 
 .carouselItem {
-  height: 65vh;
-  line-height: 65vh;
-
+  padding-top: 3%;
   text-align: center;
-  color: #fff;
+  vertical-align: middle;
+}
 
-  background: #364d79;
+.carouselPrevArrow {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+
+  font-size: xx-large;
+  color: white;
+}
+
+.carouselNextArrow {
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  z-index: 11;
+
+  font-size: xx-large;
+  color: white;
 }
