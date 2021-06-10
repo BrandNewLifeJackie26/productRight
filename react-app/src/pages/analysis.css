@@ -1,15 +1,3 @@
-.title {
-  font-family: "Times New Roman", Times, serif;
-  font-size: x-large;
-  background: rgb(242, 176, 121);
-}
-  
-.subtitle {
-  font-family: "Times New Roman", Times;
-  font-size: large;
-  background:rgb(255, 199, 121);
-}
-
 /* Select which level of analysis to show */
 .levelSelection {
   display: flex;
@@ -109,7 +97,7 @@
 
 /* TODO: why the percentage not working */
 .carousel {
-  background: #364d79;
+  background: #0084ff;
   height: 65vh;
 }
 

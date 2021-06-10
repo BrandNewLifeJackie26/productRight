@@ -143,64 +143,9 @@ export default function Analysis() {
     const [analysisLevel, setAnalysisLevel] = useState("Category");
 
     return (
-      // <>
-      //   <div>
-      //   <h1 className={styles.title}>Analysis</h1>
-      //   </div>
-
-      //   <div>
-      //   <h2 className={styles.subtitle}>Category Level</h2>
-      //   </div>
-      //   <table width='100%'>
-      //     <tbody>
-      //       <tr>
-      //         <td align='center'><BarChart spec={specTopCategoriesBySales}></BarChart></td>
-      //         <td align='center'><BarChart spec={specCustomerBehaviorByCategory}></BarChart></td>
-      //       </tr>
-      //       <tr>
-      //         <td align='center'><BarChart spec={specTopBrandsByCategory}></BarChart></td>
-      //         <td align='center'><BarChart spec={specTopItemsByCategory}></BarChart></td>
-      //       </tr>
-      //     </tbody>
-      //   </table>
-        
-      //   <div>
-      //   <h2 className={styles.subtitle}>Brand Level</h2>
-      //   </div>
-      //   <table width='100%'>
-      //     <tbody>
-      //       <tr>
-      //         <td align='center'><BarChart spec={specTopBrandsBySales}></BarChart></td>
-      //         <td align='center'><BarChart spec={specCustomerBehaviorByBrand}></BarChart></td>
-      //       </tr>
-      //       <tr>
-      //         <td align='center'><BarChart spec={specTopItemsByBrand}></BarChart></td>
-      //       </tr>
-      //     </tbody>
-      //   </table>
-
-      //   <div>
-      //   <h2 className={styles.subtitle}>Daily Level</h2>
-      //   </div>
-      //   <table width='100%'>
-      //     <tbody>
-      //       <td align='center'><BarChart spec={specDailySalesByCategoryAndBrand}></BarChart></td>
-      //     </tbody>
-      //   </table>
-
-      //   <div>
-      //   <h2 className={styles.subtitle}>Others</h2>
-      //   </div>
-      //   <table width='100%'>
-      //     <tbody>
-      //       <td align='center'><BarChart spec={specCustomerBehaviorByCategoryAndBrand}></BarChart></td>
-      //     </tbody>
-      //   </table>
-      // </>
-
       <>
         <div className={styles.levelSelection}>
-          <div className={styles.selectionIntro}>Click Level to Analyse</div>
+          <div className={styles.selectionIntro}>Click Level to Analyze</div>
           <div className={styles.selections}>
             <Button type="primary" shape="round" className={styles.selectionButton} onClick={() => setAnalysisLevel("Category")} autoFocus={true}>Category</Button>
             <Button type="primary" shape="round" className={styles.selectionButton} onClick={() => setAnalysisLevel("Brand")}>Brand</Button>

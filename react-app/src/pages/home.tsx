@@ -1,6 +1,7 @@
 import styles from './home.css';
-import { Button } from 'antd';
+import { Tooltip, Button } from 'antd';
 import { PieChartTwoTone, ProjectTwoTone } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
     return (
@@ -12,12 +13,24 @@ export default function Home() {
             </div>
             <div className={styles.intro}>
                 <div className={styles.analysisIntro}>
-                    <PieChartTwoTone twoToneColor="#0084ff" className={styles.icon}></PieChartTwoTone>
-                    <Button type="primary" shape="round" className={styles.buttonLearnMore}>Learn More</Button>
+                    <Link to="/analysis">
+                        <Tooltip title="Analysis dashboard">
+                            <PieChartTwoTone twoToneColor="#0084ff" className={styles.icon}></PieChartTwoTone>
+                        </Tooltip>
+                    </Link>
+                    <Link to="/analysis">
+                        <Button type="primary" shape="round" className={styles.buttonLearnMore}>Learn More</Button>
+                    </Link>
                 </div>
                 <div className={styles.recommendationIntro}>
-                    <ProjectTwoTone twoToneColor="#188fff" className={styles.icon}></ProjectTwoTone>
-                    <Button type="primary" shape="round" className={styles.buttonLearnMore}>Learn More</Button>
+                    <Link to="/recommendation">
+                        <Tooltip title="Recommendation" color="blue">
+                            <ProjectTwoTone twoToneColor="#188fff" className={styles.icon}></ProjectTwoTone>
+                        </Tooltip>
+                    </Link>
+                    <Link to="/recommendation">
+                        <Button type="primary" shape="round" className={styles.buttonLearnMore}>Learn More</Button>
+                    </Link>
                 </div>
             </div>
         </div>
