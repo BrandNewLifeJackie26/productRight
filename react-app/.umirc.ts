@@ -7,9 +7,11 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  links: [
+    { rel: 'icon', href: '@/assets/logo.svg' },
+  ],
   routes: [
     { path: '/', component: '@/pages/index' },
-    { path: '/asset/placeholder', component: '../assets/placeholder.png' },
   ],
   fastRefresh: {},
   proxy: {

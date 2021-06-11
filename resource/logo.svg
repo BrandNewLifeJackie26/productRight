@@ -1,0 +1,15 @@
+<svg 
+    version="1.1"
+    baseProfile="full"
+    width="300"
+    height="300"
+    xmlns="http://www.w3.org/2000/svg">
+
+    <rect width="100%" height="100%" fill="lightblue"></rect>
+    <polygon points="150 70 200 130 100 130" fill="blue"/>
+
+    <line x1="110" x2="110" y1="140" y2="230" stroke="blue" stroke-width="20"/>
+
+    <circle cx="110" cy="140" r="10" fill="darkblue"/>
+    <line x1="110" x2="200" y1="140" y2="230" stroke="darkblue" stroke-width="20"/>
+</svg>
