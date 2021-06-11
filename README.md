@@ -110,7 +110,7 @@ Also, the website itself should have better performance and allow more complicat
 Due to time and cost limit, we are not using most of all the components above, but we have plenty of abstraction to allow simple replacement with better components in the future.
 
 ## Documentation
-You can view all functions and classes in our [docs](./documentation/_build/html/index.html) based on `Sphinx`.
+You can view all functions and classes in our [docs](https://brandnewlifejackie26.github.io/productRight/) based on `Sphinx`.
 
 ## Test
 We use `pytest` to test our codes. You can see the coverage report here:
