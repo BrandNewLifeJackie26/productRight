@@ -1,9 +1,5 @@
 import styles from './index.less';
-import ProLayout, {
-  PageContainer,
-  DefaultFooter,
-} from '@ant-design/pro-layout';
-import menuProps from './menuProps';
+import { Layout, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
@@ -11,15 +7,21 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import Analysis from '../components/container/analysis';
-import Recommendation from '../components/container/recommendation';
+import CustomizedMenu from '../components/menu/menu';
+import Home from './home';
+import Analysis from './analysis';
+import Recommendation from './recommendation';
+
+import Logo from '../assets/logo.svg'
+
+const { Header, Content, Footer, Sider } = Layout;
 
 export default function IndexPage() {
   // Get time
   const [currentTime, setCurrentTime] = useState(0);
 
-  // Get vega object
-  const [spec, setSpec] = useState({});
+  // Set collapsed
+  const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
     // Set current time
@@ -31,30 +33,33 @@ export default function IndexPage() {
   // Return layout
   return (
     <Router>
-      <ProLayout
-        {...menuProps}
-        className={styles.proLayout}
-      >
+      <Layout className={styles.layout}>
+        <Sider collapsible collapsed={collapsed} onCollapse={collapsed => setCollapsed(collapsed)}>
+          <img src={Logo} className={styles.logo}></img>
+          <CustomizedMenu/>
+        </Sider>
 
-        <div className={styles.content}>
-          <Switch>
-            <Route path='/recommendation'>
-              <Recommendation></Recommendation>
-            </Route>
-            
-            <Route path='/analysis'>
-              <Analysis></Analysis>
-            </Route>
+        <Layout className={styles.contentBackground}>
+          <Header className={styles.header}>YOUR BEST FRIEND: PRODUCT RIGHT!</Header>
+          
+          <Content className={styles.content}>
+            <Switch>
+              <Route path='/recommendation'>
+                <Recommendation></Recommendation>
+              </Route>
+              
+              <Route path='/analysis'>
+                <Analysis></Analysis>
+              </Route>
 
-            <Route path='/'>
-              <div>
-                <h1 className={styles.title}>Page index</h1>
-                <h2>Current time is: {currentTime}</h2>
-              </div>
-            </Route>
-          </Switch>
-        </div>
-      </ProLayout>
+              <Route path='/'>
+                <Home></Home>
+              </Route>
+            </Switch>
+          </Content>
+        </Layout>
+
+      </Layout>
     </Router>
   );
 }

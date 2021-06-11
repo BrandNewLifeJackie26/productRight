@@ -1,0 +1,26 @@
+.recommendation {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+
+  display: flex;
+  align-items: center;
+}
+
+/* Input */
+.recommInput {
+  flex: 1;
+}
+
+/* Result */
+.recommResult {
+  flex: 3;
+  margin-left: 10%;
+}
+
+.itemAttributeButton {
+  margin-left: 5%;
+}

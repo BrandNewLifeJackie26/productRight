@@ -161,3 +161,7 @@ yarn.lock
 .umi
 .umi-production
 .umi-test
+
+# ------------------
+# Sphinx Docs
+documentation/

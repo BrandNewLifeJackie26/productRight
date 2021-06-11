@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>source package &#8212; ProductRight 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="source-package">
+<h1>source package<a class="headerlink" href="#source-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-source.analyser">
+<span id="source-analyser-module"></span><h2>source.analyser module<a class="headerlink" href="#module-source.analyser" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="source.analyser.Analyser">
+<em class="property">class </em><code class="sig-prename descclassname">source.analyser.</code><code class="sig-name descname">Analyser</code><a class="headerlink" href="#source.analyser.Analyser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Analyser class provides functions to analyze pandas.DataFrame and output the graphs</p>
+<dl class="py method">
+<dt id="source.analyser.Analyser.conversions">
+<code class="sig-name descname">conversions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">grouped</span></em>, <em class="sig-param"><span class="n">metric</span></em>, <em class="sig-param"><span class="n">comp</span></em>, <em class="sig-param"><span class="n">subset</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">choice</span><span class="o">=</span><span class="default_value">()</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.analyser.Analyser.conversions" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function groups the data by the column specified in grouped and generates the conversions for the given condtions.
+There are 3 conversions provided:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>v2c(viewed to cart): count of all carts/ count of all views</p></li>
+<li><p>c2p(cart to purchase): count of all purchases/count of all carts</p></li>
+<li><p>v2p(view to purchase): count of all purchases/count of all views</p></li>
+</ol>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – input dataframe</p></li>
+<li><p><strong>metrics</strong> – metrics of which the counts are generated for performing the division for conversions. Input is usually user_session</p></li>
+<li><p><strong>grouped</strong> – condition to be used for grouping. For eg: brand (if you want conversion by brand)</p></li>
+<li><p><strong>top</strong> – Number of data entries to be returned</p></li>
+<li><p><strong>asc</strong> – bool to represent sort the return dataframe in ascending order. Used for top vs bottom set</p></li>
+<li><p><strong>subset</strong> – if you want the dataset to be further subsetted by a value. For eg: you want top brands for a specific category
+you would provide “brand”. This is an option input.</p></li>
+<li><p><strong>choice</strong> – If subset is provided, choice allows you to select which value in the subset you want to filter the data on</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>data frame representing the data filtered by the options provided</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.analyser.Analyser.funnel">
+<code class="sig-name descname">funnel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">grouped</span></em>, <em class="sig-param"><span class="n">metric</span></em>, <em class="sig-param"><span class="n">subset</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">choice</span><span class="o">=</span><span class="default_value">()</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.analyser.Analyser.funnel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function groups the data by the column specified in grouped and generates the funnel for the given condtions.
+There are 3 stages in the funnel provided:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>views: number of user sessions in view stage</p></li>
+<li><p>carts: number of user sessions in cart stage</p></li>
+<li><p>purchases: number of user sessions in purchase stage</p></li>
+</ol>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – input dataframe</p></li>
+<li><p><strong>metrics</strong> – metrics of which the counts are generated. Input is usually user_session</p></li>
+<li><p><strong>grouped</strong> – condition to be used for grouping. For eg: brand (if you want funnel by brand)</p></li>
+<li><p><strong>top</strong> – Number of data entries to be returned</p></li>
+<li><p><strong>asc</strong> – bool to represent sort the return dataframe in ascending order. Used for top vs bottom set</p></li>
+<li><p><strong>subset</strong> – if you want the dataset to be further subsetted by a value. For eg: you want top brands for a specific category
+you would provide “brand”. This is an option input.</p></li>
+<li><p><strong>choice</strong> – If subset is provided, choice allows you to select which value in the subset you want to filter the data on</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>data frame representing the data filtered by the options provided</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.analyser.Analyser.generate_base_counts">
+<code class="sig-name descname">generate_base_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">metrics</span></em>, <em class="sig-param"><span class="n">grouped</span></em>, <em class="sig-param"><span class="n">top</span></em>, <em class="sig-param"><span class="n">asc</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">subset</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">choice</span><span class="o">=</span><span class="default_value">()</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.analyser.Analyser.generate_base_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function groups the data by the column specified in grouped and generates the total number (counts) of
+filtered by the given metric</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – input dataframe</p></li>
+<li><p><strong>metrics</strong> – metrics of which the counts are generated. For eg: Price</p></li>
+<li><p><strong>grouped</strong> – condition to be used for grouping. For eg: brand</p></li>
+<li><p><strong>top</strong> – Number of data entries to be returned</p></li>
+<li><p><strong>asc</strong> – bool to represent sort the return dataframe in ascending order. Used for top vs bottom set</p></li>
+<li><p><strong>subset</strong> – if you want the dataset to be further subsetted by a value. For eg: you want top brands for a specific category
+you would provide “brand”. This is an option input.</p></li>
+<li><p><strong>choice</strong> – If subset is provided, choice allows you to select which value in the subset you want to filter the data on</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>data frame representing the data filtered by the options provided</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.analyser.Analyser.generate_base_sum">
+<code class="sig-name descname">generate_base_sum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">metrics</span></em>, <em class="sig-param"><span class="n">grouped</span></em>, <em class="sig-param"><span class="n">top</span></em>, <em class="sig-param"><span class="n">asc</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">subset</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">choice</span><span class="o">=</span><span class="default_value">()</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.analyser.Analyser.generate_base_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function groups the data by the column specified in grouped and generates the sum of the value.
+This function is used to generate the sum of price, or total revenue</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – input dataframe</p></li>
+<li><p><strong>metrics</strong> – metrics of which the counts are generated. For eg: Price</p></li>
+<li><p><strong>grouped</strong> – condition to be used for grouping. For eg: brand</p></li>
+<li><p><strong>top</strong> – Number of data entries to be returned</p></li>
+<li><p><strong>asc</strong> – bool to represent sort the return dataframe in ascending order. Used for top vs bottom set</p></li>
+<li><p><strong>subset</strong> – if you want the dataset to be further subsetted by a value. For eg: you want top brands for a specific category
+you would provide “brand”. This is an option input.</p></li>
+<li><p><strong>choice</strong> – If subset is provided, choice allows you to select which value in the subset you want to filter the data on</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>data frame representing the data filtered by the options provided</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-source.data_analysis">
+<span id="source-data-analysis-module"></span><h2>source.data_analysis module<a class="headerlink" href="#module-source.data_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="source.data_analysis.DataAnalysis">
+<em class="property">class </em><code class="sig-prename descclassname">source.data_analysis.</code><code class="sig-name descname">DataAnalysis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_path</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="simple">
+<dt>DataAnalysis class for pre-processing data required for the analytics and recommendation engine. Supports multiple functions for data pre-processing.</dt><dd><p>DataAnalysis:
+1. Get data using DataManager
+2. Analyze data using Analyzer
+3. Make recommendation using Recommender</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.conversions_by_category">
+<code class="sig-name descname">conversions_by_category</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.conversions_by_category" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all the conversions of users: v2c (view-&gt; cart), c2p(cart-&gt; purchase), and v2p(view-&gt;purchase)
+for every category</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.data_preprocess_for_analysis">
+<code class="sig-name descname">data_preprocess_for_analysis</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.data_preprocess_for_analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pre-processes data for the analytical window. Divides data into three categories: Purchase, view and cart</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.data_preprocess_for_recommendation">
+<code class="sig-name descname">data_preprocess_for_recommendation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.data_preprocess_for_recommendation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pre-processes data for the recommendation engine. Prepares useful data structures to store pre-processed data used for recommendation engine.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.find_nearest_item">
+<code class="sig-name descname">find_nearest_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.find_nearest_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of itemIDs of the most similiar 50 items to the given input item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>itemid</strong> (<em>int</em>) – item ID of the item</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pandas dataframe of itemIDs of closest similar items</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.funnel_by_brand">
+<code class="sig-name descname">funnel_by_brand</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.funnel_by_brand" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all the conversions of users: v2c (view-&gt; cart), c2p(cart-&gt; purchase), and v2p(view-&gt;purchase)
+for every brand</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.funnel_by_category">
+<code class="sig-name descname">funnel_by_category</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.funnel_by_category" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all the funnel of users: # of views -&gt; # of carts -&gt; # of purchases
+for every category</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.top_brands_by_revenues">
+<code class="sig-name descname">top_brands_by_revenues</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">top</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.top_brands_by_revenues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns top brands by revenues metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>top</strong> (<em>int</em>) – Number of categories to be returned</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataframe containing top categories by sales</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.top_brands_by_sales">
+<code class="sig-name descname">top_brands_by_sales</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">top</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.top_brands_by_sales" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns top brands by sales metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>top</strong> (<em>int</em>) – Number of brands to be returned</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataframe containing top categories by sales</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.top_categories_by_revenues">
+<code class="sig-name descname">top_categories_by_revenues</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">top</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.top_categories_by_revenues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns top categories by revenues metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>top</strong> (<em>int</em>) – Number of categories to be returned</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataframe containing top categories by sales</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.data_analysis.DataAnalysis.top_categories_by_sales">
+<code class="sig-name descname">top_categories_by_sales</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">top</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.data_analysis.DataAnalysis.top_categories_by_sales" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns top categories by sales metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>top</strong> (<em>int</em>) – Number of categories to be returned</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataframe containing top categories by sales</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-source.data_manager">
+<span id="source-data-manager-module"></span><h2>source.data_manager module<a class="headerlink" href="#module-source.data_manager" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="source.data_manager.DataManager">
+<em class="property">class </em><code class="sig-prename descclassname">source.data_manager.</code><code class="sig-name descname">DataManager</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_path</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.data_manager.DataManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>DataManger Class to get data from different data source.</p>
+<dl class="py method">
+<dt id="source.data_manager.DataManager.fetch">
+<code class="sig-name descname">fetch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#source.data_manager.DataManager.fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches data from data source</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-source.recommender">
+<span id="source-recommender-module"></span><h2>source.recommender module<a class="headerlink" href="#module-source.recommender" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="source.recommender.Recommender">
+<em class="property">class </em><code class="sig-prename descclassname">source.recommender.</code><code class="sig-name descname">Recommender</code><a class="headerlink" href="#source.recommender.Recommender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representating the backbone of the recommendation system. Supports functions: find_nearest_item and uses helper functions for pre-processing data.</p>
+<dl class="py method">
+<dt id="source.recommender.Recommender.CalcScore_cosine">
+<code class="sig-name descname">CalcScore_cosine</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item1</span></em>, <em class="sig-param"><span class="n">item2</span></em>, <em class="sig-param"><span class="n">unique_user</span></em>, <em class="sig-param"><span class="n">item_to_user</span></em>, <em class="sig-param"><span class="n">user_to_idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.recommender.Recommender.CalcScore_cosine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the cosine similirity between two item IDs. Uses OneHotEncode helper function to retrieve one hot encodings for itemIDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item1</strong> (<em>int</em>) – item ID of item1</p></li>
+<li><p><strong>item2</strong> (<em>int</em>) – item ID of item2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cosine Similarity Score</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.recommender.Recommender.find_nearest_item">
+<code class="sig-name descname">find_nearest_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">itemid</span></em>, <em class="sig-param"><span class="n">item_to_user</span></em>, <em class="sig-param"><span class="n">user_to_item</span></em>, <em class="sig-param"><span class="n">top</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.recommender.Recommender.find_nearest_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of ItemIDs of the most similiar items to the given input item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>itemid</strong> (<em>int</em>) – item ID of the item</p></li>
+<li><p><strong>item_to_user</strong> (<em>dict</em>) – dict which stores item to user list information</p></li>
+<li><p><strong>user_to_item</strong> (<em>dict</em>) – dict which stores user to item list information</p></li>
+<li><p><strong>top</strong> (<em>int</em>) – parameter to control number of returned similar users</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of userIDs of closest similar users</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.recommender.Recommender.jaccard">
+<code class="sig-name descname">jaccard</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s1</span></em>, <em class="sig-param"><span class="n">s2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.recommender.Recommender.jaccard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the cosine similirity between two input vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s1</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – first input vector</p></li>
+<li><p><strong>s2</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – second input vector</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Jaccard Similarity Score</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="source.recommender.Recommender.one_hot_encode">
+<code class="sig-name descname">one_hot_encode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em>, <em class="sig-param"><span class="n">unique_user</span></em>, <em class="sig-param"><span class="n">item_to_user</span></em>, <em class="sig-param"><span class="n">user_to_idx</span></em><span class="sig-paren">)</span><a class="headerlink" href="#source.recommender.Recommender.one_hot_encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns one-hot encoded vector for a given item ID indicating the purchase history of a user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item</strong> (<em>int</em>) – item ID of the item</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>one hot encoded vector</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-source">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-source" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">ProductRight</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Team1.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/rst/source.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

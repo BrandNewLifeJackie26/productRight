@@ -1,13 +1,31 @@
-.proLayout {
+.layout {
   height: 100vh; // 100% of parent component height
 }
 
-.title {
-  background: rgb(121, 242, 157);
+.logo {
+  display: block;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  width: 40%;
 }
 
-// All loaded containers
+.header {
+  text-align: center;
+  font-size: large;
+  color: #ddd;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+// Container of the loaded pages
+.contentBackground {
+  background: #eee;
+}
+
+// All loaded pages
 .content {
+  background-color: white;
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
 }
