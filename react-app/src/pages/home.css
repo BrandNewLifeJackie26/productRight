@@ -19,7 +19,7 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     
     text-align: right;
-    padding-top: 45vh;
+    padding-top: 40vh;
     padding-right: 20vh;
 
     scroll-snap-align: start;
@@ -67,9 +67,9 @@
 
 /* Inside the block */
 .icon {
-    font-size: 20vw;
+    font-size: 15vw;
 
-    margin-bottom: 20%;
+    margin-bottom: 30%;
 }
 
 .icon:hover {

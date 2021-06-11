@@ -1,6 +1,7 @@
 import styles from './recommendation.css';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
-import { Form, InputNumber, Table, Button } from 'antd';
+import { Tooltip, Form, InputNumber, Table, Button } from 'antd';
 
 export default function Recommendation() {
     // Item selecter
@@ -112,6 +113,11 @@ export default function Recommendation() {
                   return (
                     <table>
                       <tbody>
+                        <td>
+                          <Tooltip title={"Provides list of similar items to the input item"}>
+                            <QuestionCircleOutlined/>
+                          </Tooltip>
+                        </td>
                         <td>Nearest items for item_id:<Button type='primary' className={styles.itemAttributeButton}>{itemId}</Button></td>
                         <td>category:<Button type='dashed' className={styles.itemAttributeButton}>{item['category_code']}</Button></td>
                         <td>brand:<Button type='dashed' className={styles.itemAttributeButton}>{item['brand']}</Button></td>
@@ -131,6 +137,11 @@ export default function Recommendation() {
                   return (
                     <table>
                       <tbody>
+                      <td>
+                          <Tooltip title={"Provides list of potential buyers for the input item"}>
+                            <QuestionCircleOutlined/>
+                          </Tooltip>
+                        </td>
                         <td>Nearest users for item_id:<Button type='primary' className={styles.itemAttributeButton}>{itemId}</Button></td>
                         <td>category:<Button type='dashed' className={styles.itemAttributeButton}>{item['category_code']}</Button></td>
                         <td>brand:<Button type='dashed' className={styles.itemAttributeButton}>{item['brand']}</Button></td>

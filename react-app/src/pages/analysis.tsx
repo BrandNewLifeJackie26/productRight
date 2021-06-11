@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Carousel } from 'antd';
+import { Button, Carousel, Timeline } from 'antd';
 import {
   LeftCircleFilled,
   RightCircleFilled
@@ -31,21 +31,37 @@ function NextArrow(props) {
 
 /* Generate charts */
 function Charts(props) {
-  // console.log(props.levelMap[props.level]);
-  const charts = props.levelMap[props.level].map((spec) => (
+  const charts = props.levelMap[props.level].map((item) => (
     <div className={styles.carouselItem}>
-      <BarChart spec={spec}></BarChart>
+      <BarChart spec={item["spec"]}></BarChart>
     </div>
   ));
   return (
     <Carousel
+      ref={props.refCarousel}
       className={styles.carousel}
       arrows={true}
       prevArrow={<PrevArrow />}
       nextArrow={<NextArrow />}
+      afterChange={(current) => {props.onAfterChange(current)}}
       >              
       {charts}
     </Carousel>
+  );
+}
+
+/* Generate descriptions */
+function Descriptions(props) {
+  const descriptions = props.levelMap[props.level].map((item, index) => (
+    index == props.highlightedIndex ?
+    <Timeline.Item className={styles.analysisIntroItem} style={{color: "black", fontWeight: "bold"}}>{item["desc"]}</Timeline.Item> :
+    <Timeline.Item className={styles.analysisIntroItem}><text id={`desc-${index}`} onClick={(val) => props.onClickDescId(val.target.id)}>{item["desc"]}</text></Timeline.Item>
+  ));
+  return (
+    <div className={styles.analysisIntro}>
+      <div className={styles.analysisIntroTitle}>{props.level}</div>
+      <Timeline className={styles.analysisIntroBody}>{descriptions}</Timeline>
+    </div>
   );
 }
 
@@ -66,21 +82,21 @@ export default function Analysis() {
     // Map of levels
     const levelMap = {
       "Category": [
-        specTopCategoriesBySales, 
-        specCustomerBehaviorByCategory, 
-        specTopBrandsByCategory, 
-        specTopItemsByCategory
+        {"spec": specTopCategoriesBySales, "desc": "Click to see the top categories and the number of products that each category sold"},
+        {"spec": specCustomerBehaviorByCategory, "desc": "Select a category from the drop down box to see the number of customers who viewed the category, added a product in the category to the cart, and bought a product in the category"},
+        {"spec": specTopBrandsByCategory, "desc": "Select a category from the drop down box to see its top brands based on the number of products sold"},
+        {"spec": specTopItemsByCategory, "desc": "Select a category from the drop down box to see its top selling items"}
       ],
       "Brand": [
-        specTopBrandsBySales,
-        specCustomerBehaviorByBrand,
-        specTopItemsByBrand
+        {"spec": specTopBrandsBySales, "desc": "Click to see the top brands and the number of products that each brand sold"},
+        {"spec": specCustomerBehaviorByBrand, "desc": "Select a brand from the drop down box to see the number of customers who viewed a product from the brand, added a product from the brand to the cart, and bought a product from the brand"},
+        {"spec": specTopItemsByBrand, "desc": " Select a brand from the drop down box to see its top selling items"}
       ],
       "Daily": [
-        specDailySalesByCategoryAndBrand
+        {"spec": specDailySalesByCategoryAndBrand, "desc": "Select a category and a brand in the drop down box to the see the number of products that were sold from the brand daily"}
       ],
       "Others": [
-        specCustomerBehaviorByCategoryAndBrand
+        {"spec": specCustomerBehaviorByCategoryAndBrand, "desc": "Select a category and a brand from the drop down box to see the number of customers who viewed a product from this brand in this category, added those products and bought them"}
       ],
     }
 
@@ -142,6 +158,12 @@ export default function Analysis() {
     // Selected analysis level
     const [analysisLevel, setAnalysisLevel] = useState("Category");
 
+    // Selected page
+    const [carouselIndex, setCarouselIndex] = useState(0);
+
+    // Carousel reference
+    const refCarousel = React.createRef();
+
     return (
       <>
         <div className={styles.levelSelection}>
@@ -155,12 +177,26 @@ export default function Analysis() {
         </div>
 
         <div className={styles.analysis}>
-          <div className={styles.analysisIntro}>
-            <div className={styles.analysisIntroTitle}>Category</div>
-            <div className={styles.analysisIntroBody}>Category Body</div>
-          </div>
+          <Descriptions 
+            level={analysisLevel} 
+            levelMap={levelMap} 
+            highlightedIndex={carouselIndex} 
+            onClickDescId={(descIdString) => {
+              let strArr = descIdString.split('-');
+              if (refCarousel != null) {
+                refCarousel.current.goTo(parseInt(strArr[strArr.length-1]));
+              }
+            }}
+          />
           <div className={styles.analysisChart}>
-            <Charts level={analysisLevel} levelMap={levelMap}/>            
+            <Charts
+              level={analysisLevel}
+              levelMap={levelMap}
+              refCarousel={refCarousel}
+              onAfterChange={(current) =>{
+                setCarouselIndex(current)
+              }}
+            />            
           </div>
         </div>
       </>

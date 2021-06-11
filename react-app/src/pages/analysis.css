@@ -72,17 +72,30 @@
 .analysisIntroTitle {
   flex: 1;
 
+  font-size: xx-large;
   width: fit-content;
 
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 .analysisIntroBody {
   flex: 5;
 
-  width: fit-content;
+  font-size: xx-large;
 
-  margin-bottom: 10%;
+  margin-bottom: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.analysisIntroItem {
+  font-size: large;
+  color: grey;
+}
+
+.analysisIntroItem :hover {
+  color: black;
+  font-weight: bold;
 }
 
 /* Analysis chart */

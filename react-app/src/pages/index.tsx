@@ -12,7 +12,7 @@ import Home from './home';
 import Analysis from './analysis';
 import Recommendation from './recommendation';
 
-import Logo from '../assets/logo.png'
+import Logo from '../assets/logo.svg'
 
 const { Header, Content, Footer, Sider } = Layout;
 

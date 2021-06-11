@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./placeholder.png" alt="productRight" width="100">
+<img src="./react-app/src/assets/logo.svg" alt="productRight" width="100">
 </p>
 <h1 align="center">ProductRight</h1>
 
